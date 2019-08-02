@@ -18,4 +18,7 @@ describe('npm-link-info', function () {
   it('can list linked modules without dev', function () {
     assert.deepEqual(npmLinkInfo.getLinked(null, false, path.resolve('./node_modules')), [])
   })
+  it('can get the path of a module folder', function () {
+    assert.deepEqual(npmLinkInfo.baseFolder('my-module'), path.resolve('./test/my-module'))
+  })
 })

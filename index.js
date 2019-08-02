@@ -25,6 +25,9 @@ module.exports = {
     }, [])
     return Array.from(new Set(linked.concat(sublinked)))
   },
+  baseFolder: function (depedency) {
+    return path.dirname(require.resolve(depedency + '/package.json'))
+  },
   isLinked: function (depedency, baseFolder = process.env.PWD) {
     if (baseFolder[baseFolder.length - 1] !== path.sep) {
       baseFolder += path.sep
