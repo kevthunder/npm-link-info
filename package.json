@@ -1,6 +1,6 @@
 {
   "name": "npm-link-info",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Get info about linked modules",
   "main": "index.js",
   "repository": {
