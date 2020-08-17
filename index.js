@@ -4,7 +4,7 @@ const path = require('path')
 module.exports = {
   getLinked: function (packageFile = null, checkDev = true, baseFolder = null) {
     if (packageFile == null) {
-      packageFile = path.join(process.env.PWD, 'package.json')
+      packageFile = path.join(process.env.INIT_CWD || process.env.PWD, 'package.json')
     }
     if (baseFolder == null) {
       baseFolder = path.dirname(packageFile)
@@ -28,7 +28,7 @@ module.exports = {
   baseFolder: function (depedency) {
     return path.dirname(require.resolve(depedency + '/package.json'))
   },
-  isLinked: function (depedency, baseFolder = process.env.PWD) {
+  isLinked: function (depedency, baseFolder = process.env.INIT_CWD || process.env.PWD) {
     if (baseFolder[baseFolder.length - 1] !== path.sep) {
       baseFolder += path.sep
     }
