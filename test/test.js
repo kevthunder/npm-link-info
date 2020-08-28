@@ -21,4 +21,26 @@ describe('npm-link-info', function () {
   it('can get the path of a module folder', function () {
     assert.deepEqual(npmLinkInfo.baseFolder('my-module'), path.resolve('./test/my-module'))
   })
+  it('can exec in the path of a module folder', function (done) {
+    var out = ''
+    npmLinkInfo.exec.getProcess = function () {
+      return {
+        stdout: {
+          write: function (data) {
+            out += data
+          }
+        },
+        stderr: {
+          write: function (data) {
+            out += data
+          }
+        }
+      }
+    }
+    const sub = npmLinkInfo.exec('my-module', ['npm', 'info', 'my-module', 'name'])
+    sub.on('close', function () {
+      assert.equal(out, '\n   [my-module] my-module\n   [my-module] \n')
+      done()
+    })
+  })
 })
