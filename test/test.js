@@ -37,9 +37,9 @@ describe('npm-link-info', function () {
         }
       }
     }
-    const sub = npmLinkInfo.exec('my-module', ['npm', 'info', 'my-module', 'name'])
+    const sub = npmLinkInfo.exec('my-module', ['node', 'output.js'])
     sub.on('close', function () {
-      assert.equal(out, '\n   [my-module] my-module\n   [my-module] \n')
+      assert.equal(out, '   [my-module] Lorem\n   [my-module] ipsum\n   [my-module] dolor\n   [my-module] sit\n   [my-module] amet\n')
       done()
     })
   })

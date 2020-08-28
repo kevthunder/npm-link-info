@@ -37,21 +37,16 @@ const linkInfo = {
     const spawn = linkInfo.exec.getSpawnFunction()
     const process = linkInfo.exec.getProcess()
     const format = linkInfo.exec.formatOutput
-
-    process.stdout.write(format('\n', depedency))
+    const context = {}
 
     const sub = spawn('npx', cmd, { cwd: linkInfo.baseFolder(depedency), ...options, stdio: 'pipe' })
 
     sub.stdout.on('data', function (data) {
-      process.stdout.write(format(data, depedency))
+      process.stdout.write(format(data, depedency, context))
     })
 
     sub.stderr.on('data', function (data) {
-      process.stderr.write(format(data, depedency))
-    })
-
-    sub.on('close', function () {
-      process.stdout.write('\n')
+      process.stderr.write(format(data, depedency, context))
     })
 
     return sub
@@ -70,8 +65,15 @@ linkInfo.exec.getProcess = function () {
   return process
 }
 
-linkInfo.exec.formatOutput = function (output, moduleName) {
-  return output.toString().replace(/(\r?\n)/g, `$1   [${moduleName}] `)
+linkInfo.exec.formatOutput = function (output, moduleName, context) {
+  const prefix = `   [${moduleName}] `
+  const parts = output.toString().split(/\r?\n/g)
+  const wasOngoing = context.ongoing
+  const ongoing = context.ongoing = parts[parts.length - 1] !== ''
+  if (!ongoing) {
+    parts.pop()
+  }
+  return (wasOngoing ? '' : prefix) + parts.join('\n' + prefix) + (ongoing ? '' : '\n')
 }
 
 module.exports = linkInfo

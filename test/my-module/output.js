@@ -1,0 +1,5 @@
+process.stdout.write('Lorem\n')
+process.stdout.write('ips')
+process.stdout.write('um\n')
+process.stdout.write('dolor\nsit\n')
+process.stdout.write('amet\n')
